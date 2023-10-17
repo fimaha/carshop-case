@@ -42,9 +42,8 @@
     display: flex;
     justify-content: space-between;
     padding: 1rem 2rem;
-    background-color: #000000;
-    color: #ffffff;
-    opacity: 60%;
+    background: #2e3b4098;
+    /* header color */
 }
 
 .nav-bar ul {
