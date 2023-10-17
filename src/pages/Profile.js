@@ -1,13 +1,21 @@
+import { useUser } from '../components/User';
+
 export default function Profile() {
+    const { isLoggedIn, setLoggedIn } = useUser()
+
     return (
-        <>
-            <h1>Homepage</h1>
-            <ul className="productBox">
-                <li>
-                    <a href="/product/143" className="productLink"><img className="productImage" src={require('../assets/images/carlogo.png')} alt="cars"></img>  </a>
-                    <br /><a href="/product/143" className="productLink">Cars</a>
-                </li>
-            </ul>
-        </>
+        <div className="home-container">
+            <h1>My Account</h1>
+
+            <form className="accountInfo">
+                <button type="button" onClick={() => {
+                    window.location.href = '/'
+                    setLoggedIn(false)
+                }}>Log out</button>
+
+            </form>
+            {/* TODO if employee */}
+
+        </div>
     )
 }

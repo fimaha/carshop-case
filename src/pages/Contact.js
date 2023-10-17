@@ -16,7 +16,7 @@ export default function Contact() {
         }
     }
     return (
-        <>
+        <div className="home-container">
             <h1>Contact Us</h1>
             <form className="contactForm">
                 <label>Email</label>
@@ -29,7 +29,7 @@ export default function Contact() {
 
                 <button type="submit" onClick={handleSubmit}>Sumbit</button>
             </form>
-        </>
+        </div>
     )
 
 }

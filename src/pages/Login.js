@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext } from "react"
 import axios from "axios"
-import Context from "../components/Context"
 import { useUser } from '../components/User';
 
 export default function Login() {
@@ -54,8 +53,9 @@ export default function Login() {
         } else if (!password) {
             setError(<p className="required">'Please type a password to log in.' </p>)
         } else {
-            setError(<p className="success">Successfully logged in!</p>)
+            // setError(<p className="success">Successfully logged in!</p>)
             setLoggedIn(true)
+            window.location.href = '/profile'
             // TODO ADD EMAIL 
             // axiosPostData()
         }
@@ -76,8 +76,6 @@ export default function Login() {
 
                 <label>Password</label>
                 <input type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-
-
                 {error}
 
                 <button type="submit" onClick={handleSubmit}>Login</button>

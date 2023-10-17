@@ -1,6 +1,4 @@
 import carlogo from '../assets/images/carlogo.png'
-import { useContext } from 'react'
-import Context from './Context'
 import { useUser } from './User';
 
 export default function Header() {

@@ -1,13 +1,8 @@
 export default function Home() {
     return (
-        <>
-            <h1>Homepage</h1>
-            <ul className="productBox">
-                <li>
-                    <a href="/product/143" className="productLink"><img className="productImage" src={require('../assets/images/carlogo.png')} alt="cars"></img>  </a>
-                    <br /><a href="/product/143" className="productLink">Cars</a>
-                </li>
-            </ul>
-        </>
+        <div className="home-container">
+            <h1 className="home-title">The future is here.</h1>
+            <a className="home-link">Join us.</a>
+        </div>
     )
 }

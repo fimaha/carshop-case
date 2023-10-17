@@ -170,10 +170,42 @@
     cursor: pointer;
 }
 
+.accountInfo {
+    margin: 0 auto;
+    display: block;
+    width: 400px;
+    background-color: #3e3f3f93;
+    padding: 40px;
+    border-radius: 20px;
+    opacity: 80%;
+}
+
+.accountInfo button {
+    display: block;
+    margin: 40px auto;
+    width: 150px;
+    padding: 10px;
+    border-radius: 10px;
+    border: rgb(86, 111, 187);
+    color: rgb(86, 111, 187);
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
 .required {
     color: red;
 }
 
 .success {
     color: green;
+}
+
+.home-container {
+    padding-left: 20px;
+    /* Adjust the number of pixels as needed */
+}
+
+.home-title,
+.home-link {
+    margin: 0;
 }
