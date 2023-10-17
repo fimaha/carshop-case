@@ -42,7 +42,7 @@
     display: flex;
     justify-content: space-between;
     padding: 1rem 2rem;
-    background: #2e3b4098;
+    background: #3e3f3f93;
     /* header color */
 }
 
@@ -57,7 +57,8 @@
 
 .nav-bar a {
     text-decoration: none;
-    color: #ffffff;
+    color: #36383a;
+    /* text color (log in etc) */
 }
 
 .nav-bar a:hover {

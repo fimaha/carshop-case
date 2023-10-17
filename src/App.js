@@ -1,31 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.css'
+import Header from './components/Header'
+import Router from './components/Router'
+// import { initializeApp } from 'firebase/app'
+// import { getFirestore, collection, getDocs } from 'firebase/firestore/lite'
 
-function App() {
-  const header = <nav className="nav-bar">
-    <p>Logo</p>
-    <ul>
-      <li>
-        <a href="/">Home</a>
-      </li>
-      <li>
-        <a href="contact-us">Contact</a>
-      </li>
-      <li>
-        <a href="/">Log in</a>
-      </li>
-      </ul>
-      </nav>
-
+export default function App() {
 
   return (
     <>
-    {header}
-      <h1>Homepage</h1>
-      <p>This is the homepage.</p>
+      <Header />
+      <Router />
     </>
-       
+
   );
 }
-
-export default App;
