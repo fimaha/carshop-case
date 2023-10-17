@@ -1,7 +1,9 @@
+import carlogo from '../assets/images/carlogo.png'
+
 export default function Header() {
   return (
     <nav className="nav-bar">
-      <p>Logo</p>
+      <p><a href="/"><img src={carlogo} alt="logo" height="50" /></a></p>
       <ul>
         <li>
           <a href="/">Home</a>

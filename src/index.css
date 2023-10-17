@@ -5,10 +5,10 @@ body {
         sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* background-image: url('/public/audi3.jpeg');
+    background-image: url('/public/audi3.jpeg');
     background-size: cover;
     background-position: top;
-    background-repeat: no-repeat; */
+    background-repeat: no-repeat;
 
 }
 
