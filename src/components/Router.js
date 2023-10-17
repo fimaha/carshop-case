@@ -1,6 +1,7 @@
 import Header from './Header'
 import Footer from './Footer'
 import Home from '../pages/Home'
+import Profile from '../pages/Profile'
 import Contact from '../pages/Contact'
 import Login from '../pages/Login'
 import CreateAccount from '../pages/CreateAccount'
@@ -46,6 +47,10 @@ export default function Router() {
                 {
                     path: "/create-account",
                     element: <CreateAccount />
+                },
+                {
+                    path: "/profile",
+                    element: <Profile />
                 },
             ]
         }

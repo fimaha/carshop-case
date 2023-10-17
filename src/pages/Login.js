@@ -1,13 +1,14 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import axios from "axios"
+import Context from "../components/Context"
+import { useUser } from '../components/User';
 
 export default function Login() {
-
+    const { isLoggedIn, setLoggedIn } = useUser()
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
     const [selectData, setSelectData] = useState([])
-    const [selectValue, setSelectValue] = useState("")
 
     useEffect(() => {
         let processing = true
@@ -17,7 +18,12 @@ export default function Login() {
         }
     }, [])
     const axiosFetchData = async (processing) => {
-        await axios.get('http:localhost:4000/users')
+        // const options ={
+        //     email:email,
+        //     password:password,
+        // }
+        // await axios.post('http:localhost:8080/users', options)
+        await axios.get('http:localhost:8080/users')
             .then(res => {
                 if (processing) {
                     setSelectData(res.data)
@@ -26,32 +32,36 @@ export default function Login() {
             .catch(err => console.log(err))
     }
 
-    const SelectDropDown = () => {
-        return (
-            <select value={selectValue} onChange={(e) => setSelectValue(e.target.value)}>
-                {
-                    selectData?.map((item, index) => (
-                        <option value={item.website} key={item.website}>{item.website}</option>
-                    ))
-                }
-            </select>
-        )
+    const axiosPostData = async () => {
+        const postData = {
+            email: email,
+            password: password,
+        }
+        // setError(<p className="success"></p>)
+        await axios.post('http://localhost:8080/user', postData)
+            .then(res =>
+                // setLoggedIn(true)
+                setError(<p className="success">{res.data}</p>)
+            )
     }
+
 
     const handleSubmit = (e) => {
         e.preventDefault()
 
         if (!email) {
-            setError(<p className="required">'Please type an email to log in.' </p>)
-        } else {
-            setError("")
-        }
-
-        if (!password) {
+            setError(<p className="required">Please type an email to log in.{email}</p>)
+        } else if (!password) {
             setError(<p className="required">'Please type a password to log in.' </p>)
         } else {
-            setError("")
+            setError(<p className="success">Successfully logged in!</p>)
+            setLoggedIn(true)
+            // TODO ADD EMAIL 
+            // axiosPostData()
         }
+
+
+        // window.location.href = '/'
     }
 
 
@@ -59,12 +69,13 @@ export default function Login() {
         <>
             <h1>Log in</h1>
             <form className="contactForm">
+
                 {/* <SelectDropDown/>  TODO this function is just for testing*/}
                 <label>Email</label>
-                <input type="text" id="email" name="email" value={email} onChange={(e) => setEmail()} />
+                <input type="text" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
 
                 <label>Password</label>
-                <input type="password" id="password" name="password" value={password} onChange={(e) => setPassword()} />
+                <input type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
 
 
                 {error}
