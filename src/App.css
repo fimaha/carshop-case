@@ -43,6 +43,7 @@
     justify-content: space-between;
     padding: 1rem 2rem;
     background: #3e3f3f93;
+    opacity: 80%;
     /* header color */
 }
 
@@ -57,7 +58,7 @@
 
 .nav-bar a {
     text-decoration: none;
-    color: #36383a;
+    color: #afa4a4;
     /* text color (log in etc) */
 }
 
@@ -119,10 +120,10 @@
     margin: 0 auto;
     display: block;
     width: 400px;
-    background-color: #ffffff;
+    background-color: #3e3f3f93;
     padding: 40px;
     border-radius: 20px;
-    opacity: 75%;
+    opacity: 80%;
 }
 
 .contactForm label {
@@ -163,8 +164,8 @@
     width: 150px;
     padding: 10px;
     border-radius: 10px;
-    border: 1px solid royalblue;
-    color: royalblue;
+    border: rgb(86, 111, 187);
+    color: rgb(86, 111, 187);
     background-color: #ffffff;
     cursor: pointer;
 }
