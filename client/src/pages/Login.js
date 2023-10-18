@@ -3,67 +3,35 @@ import axios from "axios"
 import { useUser } from '../components/User';
 
 export default function Login() {
-    const { isLoggedIn, setLoggedIn } = useUser()
+    const { isLoggedIn, setLoggedIn, setUserInfo } = useUser()
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
-    const [selectData, setSelectData] = useState([])
-
-    useEffect(() => {
-        let processing = true
-        axiosFetchData(processing)
-        return () => {
-            processing = false
-        }
-    }, [])
-    const axiosFetchData = async (processing) => {
-        // const options ={
-        //     email:email,
-        //     password:password,
-        // }
-        // await axios.post('http:localhost:8080/users', options)
-        await axios.get('http:localhost:8080/users')
-            .then(res => {
-                if (processing) {
-                    setSelectData(res.data)
-                }
-            })
-            .catch(err => console.log(err))
-    }
-
-    const axiosPostData = async () => {
-        const postData = {
-            email: email,
-            password: password,
-        }
-        // setError(<p className="success"></p>)
-        await axios.post('http://localhost:8080/account', postData)
-            .then(res =>
-                // setLoggedIn(true)
-                setError(<p className="success">{res.data}</p>)
-            )
-    }
-
 
     const handleSubmit = (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
-        if (!email) {
-            setError(<p className="required">Please type an email to log in.{email}</p>)
-        } else if (!password) {
-            setError(<p className="required">'Please type a password to log in.' </p>)
+        if (!email || !password) {
+            setError("Please fill in both email and password.");
         } else {
-            // setError(<p className="success">Successfully logged in!</p>)
-            setLoggedIn(true)
-            window.location.href = '/profile'
-            // TODO ADD EMAIL 
-            axiosPostData()
+            axios.post("http://localhost:8080/login", { email, password })
+                .then((response) => {
+                    // If the response contains user information, log in
+                    if (response.status === 200) {
+                        setLoggedIn(true)
+                        // setUserInfo(response.data) // Store user info for later use
+                        // window.location.href = '/profile'
+                    } else {
+                        setError(response.data)
+                    }
+                    window.location.href = '/profile'
+                })
+                .catch((error) => {
+                    setError(<p className="required">Incorrect email or password.</p>);
+                    console.error(error);
+                });
         }
-
-
-        // window.location.href = '/'
     }
-
 
     return (
         <>

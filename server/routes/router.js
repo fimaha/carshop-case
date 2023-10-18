@@ -1,23 +1,44 @@
 const { initializeApp } = require("firebase/app");
-const { getFirestore, doc, setDoc } = require('firebase/firestore');
+const { getFirestore, doc, setDoc, getDoc } = require('firebase/firestore');
 const firebaseConfig = require("../firebaseConfig.json");
 
 const express = require('express')
 const router = express.Router()
 
-
-const app = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 const db = getFirestore();
 
-const data = require('./data.json');
+// const data = require('./data.json');
 
 
-router.post('/login', (req, res) => {
-    const { email, password } = req.body
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
 
-    console.log(email + '-' + password)
-    res.send('Successfully logged in.')
-})
+    try {
+        const docRef = doc(db, 'accounts', email);
+        const docSnapshot = await getDoc(docRef);
+        const userData = docSnapshot.data();
+
+        if (!userData) {
+            res.status(401).send('Email not found.');
+            return;
+        }
+
+        if (password === userData.password) {
+            const userInfo = {
+                name: userData.name,
+                surname: userData.surname,
+                email: email,
+            };
+            res.status(200).json(userInfo);
+        } else {
+            res.status(401).send('Incorrect password.');
+        }
+    } catch (error) {
+        console.error('Error during login:', error);
+        res.status(500).send('Error during login.');
+    }
+});
 
 router.post('/account', async (req, res) => {
     const { name, surname, email, password } = req.body;
@@ -41,17 +62,14 @@ router.post('/account', async (req, res) => {
 //     const userData = require('data.json');
 //     // TODO wrong path for data
 // })
-router.get('/employees', (req, res) => {
-    const employees = data.carshop.employees;
-    res.json(employees);
-});
+// router.get('/employees', (req, res) => {
+//     const employees = data.carshop.employees;
+//     res.json(employees);
+// });
 
-router.get('/carmodels', (req, res) => {
-    const carmodels = data.carshop.carmodels;
-    res.json(carmodels);
-});
-
-
-
+// router.get('/carmodels', (req, res) => {
+//     const carmodels = data.carshop.carmodels;
+//     res.json(carmodels);
+// });
 
 module.exports = router
