@@ -19,11 +19,17 @@ export default function CreateAccount() {
             axios
                 .post("http://localhost:8080/account", { name, surname, email, password })
                 .then((response) => {
-                    setError(<p className="success">{response.data}</p>);
-                    setLoggedIn(true);
+                    if (response.status === 200) {
+                        // Request was successful
+                        setError(<p className="success">{response.data}</p>);
+                        setLoggedIn(true);
+                    } else {
+                        // Handle other status codes if needed
+                        setError(<p className="error">Error.</p>);
+                    }
                 })
                 .catch((error) => {
-                    setError(<p className="error">Error creating the account.</p>);
+                    setError(<p className="error">Error creating the account frontend catch.</p>);
                     console.error(error);
                 });
         }

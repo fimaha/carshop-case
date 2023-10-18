@@ -117,11 +117,13 @@ router.post('/account', async (req, res) => {
 
     try {
         await setDoc(doc(db, 'accounts', email), data);
-        res.send('Successfully created account.');
+        res.status(200).json('Successfully created account.');
+        // res.send('Successfully created account.');
     } catch (error) {
         console.error('Error creating account:', error);
         res.status(500).send('Error creating account');
     }
+
 });
 
 module.exports = router

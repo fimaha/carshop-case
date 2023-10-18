@@ -3,7 +3,6 @@ import axios from "axios";
 
 export default function CarModelList() {
     const [carmodels, setCarmodels] = useState([]);
-    const [idToRemove, setIdToRemove] = useState("");
     const [newCar, setNewCar] = useState({ brand: "", model: "", price: 0 });
 
     useEffect(() => {

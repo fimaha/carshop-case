@@ -10,12 +10,13 @@ export function UserProvider({ children }) {
     const [isLoggedIn, setLoggedIn] = useState(
         localStorage.getItem('isLoggedIn') === 'true'
     );
+    const [userInfo, setUserInfo] = useState({ name: '', surname: '', email: '' });
     useEffect(() => {
         localStorage.setItem('isLoggedIn', isLoggedIn);
     }, [isLoggedIn]);
 
     return (
-        <UserContext.Provider value={{ isLoggedIn, setLoggedIn }}>
+        <UserContext.Provider value={{ isLoggedIn, setLoggedIn, userInfo, setUserInfo }}>
             {children}
         </UserContext.Provider>
     );
