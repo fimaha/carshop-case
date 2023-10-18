@@ -3,6 +3,7 @@ import axios from "axios";
 
 export default function CarModelList() {
     const [carmodels, setCarmodels] = useState([]);
+    const [idToRemove, setIdToRemove] = useState("");
     const [newCar, setNewCar] = useState({ brand: "", model: "", price: 0 });
 
     useEffect(() => {
@@ -30,14 +31,16 @@ export default function CarModelList() {
         // Send a DELETE request to remove a car
         axios
             .delete(`http://localhost:8080/carmodels/${carId}`)
-            .then(() => {
-                // Remove the car from the local state
-                const updatedCarmodels = carmodels.filter((car) => car.id !== carId);
-                setCarmodels(updatedCarmodels);
-            })
+            // .then(() => {
+            //     // Remove the car from the local state
+            //     // const updatedCarmodels = carmodels.filter((car) => car.id !== carId);
+            //     // setCarmodels(updatedCarmodels);
+            // })
             .catch((error) => {
                 console.error(error);
             });
+        const updatedCarmodels = carmodels.filter((car) => car.id !== carId);
+        setCarmodels(updatedCarmodels);
     };
 
     return (
@@ -46,7 +49,7 @@ export default function CarModelList() {
             <ul>
                 {carmodels.map((car) => (
                     <li key={car.id}>
-                        {car.brand} {car.model} - ${car.price}
+                        {car.brand} {car.model} - {car.price} kr
                         <button onClick={() => removeCar(car.id)}>Remove</button>
                     </li>
                 ))}

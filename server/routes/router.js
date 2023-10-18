@@ -1,8 +1,6 @@
 const { initializeApp } = require("firebase/app");
 const { getFirestore, doc, setDoc, getDoc, getDocs, deleteDoc, collection } = require('firebase/firestore');
 const firebaseConfig = require("../firebaseConfig.json");
-const { addCarToFirestore, removeCarFromFirestore } = require('../carFirestoreFunctions');
-
 
 const express = require('express')
 const router = express.Router()
