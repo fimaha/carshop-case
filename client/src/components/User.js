@@ -10,13 +10,24 @@ export function UserProvider({ children }) {
     const [isLoggedIn, setLoggedIn] = useState(
         localStorage.getItem('isLoggedIn') === 'true'
     );
-    const [userInfo, setUserInfo] = useState({ name: '', surname: '', email: '' });
+
+    let userInfoFromLocalStorage = localStorage.getItem('userInfo');
+    userInfoFromLocalStorage = userInfoFromLocalStorage ? JSON.parse(userInfoFromLocalStorage) : null;
+    const [userInfo, setUserInfo] = useState(userInfoFromLocalStorage);
+
+
+    const updateUserInfo = (data) => {
+        setUserInfo(data);
+    };
     useEffect(() => {
         localStorage.setItem('isLoggedIn', isLoggedIn);
-    }, [isLoggedIn]);
+        if (userInfo) {
+            localStorage.setItem('userInfo', JSON.stringify(userInfo));
+        }
+    }, [isLoggedIn, userInfo]);
 
     return (
-        <UserContext.Provider value={{ isLoggedIn, setLoggedIn, userInfo, setUserInfo }}>
+        <UserContext.Provider value={{ isLoggedIn, setLoggedIn, userInfo, updateUserInfo }}>
             {children}
         </UserContext.Provider>
     );

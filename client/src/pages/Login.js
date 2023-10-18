@@ -1,12 +1,14 @@
 import { useState, useEffect, useContext } from "react"
 import axios from "axios"
 import { useUser } from '../components/User';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
-    const { isLoggedIn, setLoggedIn, setUserInfo } = useUser()
+    const { setLoggedIn, updateUserInfo } = useUser()
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -19,12 +21,13 @@ export default function Login() {
                     // If the response contains user information, log in
                     if (response.status === 200) {
                         setLoggedIn(true)
-                        // setUserInfo(response.data) // Store user info for later use
+                        updateUserInfo(response.data) // Store user info for later use
+                        navigate('/profile');
                         // window.location.href = '/profile'
                     } else {
                         setError(response.data)
                     }
-                    window.location.href = '/profile'
+                    // window.location.href = '/profile'
                 })
                 .catch((error) => {
                     setError(<p className="required">Incorrect email or password.</p>);

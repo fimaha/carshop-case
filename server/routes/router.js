@@ -126,4 +126,31 @@ router.post('/account', async (req, res) => {
 
 });
 
+// Route to fetch user information based on email
+router.get('/user-info', async (req, res) => {
+    const { email } = req.query;
+
+    try {
+        const docRef = doc(db, 'accounts', email);
+        const docSnapshot = await getDoc(docRef);
+        const userData = docSnapshot.data();
+
+        if (!userData) {
+            res.status(404).send('User not found.');
+            return;
+        }
+
+        const userInfo = {
+            name: userData.name,
+            surname: userData.surname,
+            email: email,
+        };
+
+        res.status(200).json(userInfo);
+    } catch (error) {
+        console.error('Error fetching user information:', error);
+        res.status(500).send('Error fetching user information.');
+    }
+});
+
 module.exports = router

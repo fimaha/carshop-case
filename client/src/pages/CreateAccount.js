@@ -1,14 +1,17 @@
 import { useState } from "react"
 import { useUser } from '../components/User';
+import { useNavigate } from 'react-router-dom';
+
 import axios from "axios";
 
 export default function CreateAccount() {
+    const { setLoggedIn, updateUserInfo } = useUser()
     const [name, setName] = useState("")
     const [surname, setSurname] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
-    const { isLoggedIn, setLoggedIn } = useUser()
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -21,15 +24,18 @@ export default function CreateAccount() {
                 .then((response) => {
                     if (response.status === 200) {
                         // Request was successful
-                        setError(<p className="success">{response.data}</p>);
+                        //setError(<p className="success">{response.data}</p>);
                         setLoggedIn(true);
+                        // Assuming response.data contains user information
+                        updateUserInfo({ name, surname, email })
+                        navigate('/profile');
                     } else {
                         // Handle other status codes if needed
-                        setError(<p className="error">Error.</p>);
+                        setError(<p className="error">Error creating the account.</p>);
                     }
                 })
                 .catch((error) => {
-                    setError(<p className="error">Error creating the account frontend catch.</p>);
+                    setError(<p className="error">Error creating the account.</p>);
                     console.error(error);
                 });
         }
