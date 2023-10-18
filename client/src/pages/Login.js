@@ -37,7 +37,7 @@ export default function Login() {
             password: password,
         }
         // setError(<p className="success"></p>)
-        await axios.post('http://localhost:8080/user', postData)
+        await axios.post('http://localhost:8080/account', postData)
             .then(res =>
                 // setLoggedIn(true)
                 setError(<p className="success">{res.data}</p>)

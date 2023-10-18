@@ -1,6 +1,12 @@
+const { initializeApp } = require("firebase/app");
+const { getFirestore, doc, setDoc } = require('firebase/firestore');
+const firebaseConfig = require("../firebaseConfig.json");
+
 const express = require('express')
 const router = express.Router()
-const { getFirestore, doc, setDoc } = require('firebase/firestore');
+
+
+const app = initializeApp(firebaseConfig);
 const db = getFirestore();
 
 const data = require('./data.json');

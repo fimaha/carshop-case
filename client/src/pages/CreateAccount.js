@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useUser } from '../components/User';
+import axios from "axios";
 
 export default function CreateAccount() {
     const [name, setName] = useState("")
@@ -10,21 +11,22 @@ export default function CreateAccount() {
     const { isLoggedIn, setLoggedIn } = useUser()
 
     const handleSubmit = (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
-        if (!name) {
-            setError(<p className="required">Please type your name to log in.</p>)
-        } else if (!surname) {
-            setError(<p className="required">Please type your surname to log in.</p>)
-        } else if (!email) {
-            setError(<p className="required">Please type your email to log in.</p>)
-        } else if (!password) {
-            setError(<p className="required">Please type a password to log in.</p>)
+        if (!name || !surname || !email || !password) {
+            setError(<p className="required">Please fill in all fields.</p>);
         } else {
-            setError(<p className="success">Account created!</p>)
-            setLoggedIn(true)
-            // TODO ADD EMAIL 
-            // axiosPostData()
+            // Send a POST request to your backend to create an account
+            axios
+                .post("http://localhost:8080/account", { name, surname, email, password })
+                .then((response) => {
+                    setError(<p className="success">{response.data}</p>);
+                    setLoggedIn(true);
+                })
+                .catch((error) => {
+                    setError(<p className="error">Error creating the account.</p>);
+                    console.error(error);
+                });
         }
     }
     return (
