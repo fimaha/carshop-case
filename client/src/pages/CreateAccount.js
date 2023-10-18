@@ -16,7 +16,6 @@ export default function CreateAccount() {
         if (!name || !surname || !email || !password) {
             setError(<p className="required">Please fill in all fields.</p>);
         } else {
-            // Send a POST request to your backend to create an account
             axios
                 .post("http://localhost:8080/account", { name, surname, email, password })
                 .then((response) => {
