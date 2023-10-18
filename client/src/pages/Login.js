@@ -57,7 +57,7 @@ export default function Login() {
             setLoggedIn(true)
             window.location.href = '/profile'
             // TODO ADD EMAIL 
-            // axiosPostData()
+            axiosPostData()
         }
 
 
