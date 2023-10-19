@@ -1,12 +1,29 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useUser } from '../components/User';
 
 import axios from "axios";
 
 export default function Profile() {
     const { setLoggedIn, userInfo } = useUser()
+    const [employeeData, setEmployeeData] = useState(null);
 
+    useEffect(() => {
+        if (userInfo.email) {
+            // Create the full name
+            const fullName = userInfo.name + ' ' + userInfo.surname;
 
+            // Fetch employee data
+            axios.get(`/employee-info?fullName=${fullName}`)
+                .then((response) => {
+                    const employeeInfo = response.data;
+                    setEmployeeData(employeeInfo);
+                })
+                .catch((error) => {
+                    console.error(error);
+
+                });
+        }
+    }, [userInfo.email, userInfo.name, userInfo.surname]);
 
     return (
         <>
@@ -20,6 +37,16 @@ export default function Profile() {
                     </>
                 ) : (
                     <p>Loading user information...</p>
+
+                )}
+                {employeeData ? (
+                    <>
+                        <p>Employee ID: {employeeData.id}</p>
+                        <p>Total Sales Amount: {employeeData.totalSalesAmount}</p>
+                        <p>Cars Sold: {employeeData.carsSold.join(', ')}</p>
+                    </>
+                ) : (
+                    <p>Loading employee information...</p>
                 )}
                 <button type="button" onClick={() => {
                     window.location.href = '/'

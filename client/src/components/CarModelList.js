@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import uuid from 'react-uuid';
 
 export default function CarModelList() {
     const [carmodels, setCarmodels] = useState([]);
-    const [newCar, setNewCar] = useState({ brand: "", model: "", price: 0 });
+    const [newCar, setNewCar] = useState({ brand: "", model: "", price: 0, id: uuid() });
 
     useEffect(() => {
         // Fetch car models from the API when the component mounts
@@ -19,7 +20,7 @@ export default function CarModelList() {
             .then((response) => {
                 // Add the new car to the local state
                 setCarmodels([...carmodels, response.data]);
-                setNewCar({ brand: "", model: "", price: 0 });
+                setNewCar({ brand: "", model: "", price: 0, id: uuid() });
             })
             .catch((error) => {
                 console.error(error);

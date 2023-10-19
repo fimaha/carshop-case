@@ -32,11 +32,12 @@ router.get('/carmodels', async (req, res) => {
 
 // Route to add a new car to Firestore
 router.post('/carmodels', async (req, res) => {
-    const { brand, model, price } = req.body;
+    const { brand, model, price, id } = req.body;
     const newCarData = {
         brand: brand,
         model: model,
         price: price,
+        id: id,
     };
     try {
         const carmodelsCollection = collection(db, 'carmodels')
@@ -54,21 +55,24 @@ router.delete('/carmodels/:carId', async (req, res) => {
     const carId = req.params.carId; // Access the carId from the URL parameter
 
     try {
-        // Use the carId to remove the car from Firestore
         const carmodelsCollection = collection(db, 'carmodels');
-        const carDocRef = doc(carmodelsCollection, carId);
+        const carmodelsQuerySnapshot = await getDocs(carmodelsCollection);
+        let foundCarId = null;
+        carmodelsQuerySnapshot.forEach((doc) => {
+            const carmodel = doc.data();
+            if (carmodel.id === carId) {
+                foundCarId = doc.id
+            }
+        });
 
-        // Check if the car document exists
-        const carDocSnapshot = await getDoc(carDocRef);
-        if (!carDocSnapshot.exists()) {
-            return res.status(404).send('Car not found');
+        if (foundCarId) {
+            // Remove the car document from Firestore
+            const carDocRef = doc(carmodelsCollection, foundCarId);
+            await deleteDoc(carDocRef);
+            res.status(204).send('Car deleted successfully');
+        } else {
+            res.status(404).send('Car not found');
         }
-
-        // Remove the car document from Firestore
-        await deleteDoc(carDocRef);
-
-        // Respond with a success status
-        res.status(204).send();
     } catch (error) {
         console.error('Error removing a car from Firestore:', error);
         res.status(500).send('Error removing a car from Firestore');
@@ -150,6 +154,58 @@ router.get('/user-info', async (req, res) => {
     } catch (error) {
         console.error('Error fetching user information:', error);
         res.status(500).send('Error fetching user information.');
+    }
+});
+
+// Route to fetch employee information based on full name
+router.get('/employee-info', async (req, res) => {
+    const { fullName } = req.query;
+
+    try {
+        const employeeData = {
+            id: null,
+            totalSalesAmount: 0,
+            carsSold: [],
+        };
+
+        // Fetch the employee based on the full name
+        const employeesCollection = collection(db, 'employees');
+        const employeesQuerySnapshot = await getDocs(employeesCollection);
+        employeesQuerySnapshot.forEach((doc) => {
+            const employee = doc.data();
+            if (employee.name === fullName) {
+                employeeData.id = employee.id;
+            }
+        });
+
+        if (employeeData.id !== null) {
+            // If the employee exists, fetch related sales data
+            const salesCollection = collection(db, 'sales');
+            const salesQuerySnapshot = await getDocs(salesCollection);
+            for (const doc of salesQuerySnapshot.docs) {
+                const sale = doc.data();
+                if (sale.employee_id === employeeData.id) {
+                    const carmodelId = sale.carmodel_id
+                    const carmodelsCollection = collection(db, 'carmodels');
+                    const carmodelsQuerySnapshot = await getDocs(carmodelsCollection);
+                    for (const doc of carmodelsQuerySnapshot.docs) {
+                        const carmodel = doc.data();
+                        if (carmodel.id == carmodelId) {
+                            const carInfo = `${carmodel.brand} ${carmodel.model} ${carmodel.price}`;
+                            employeeData.carsSold.push(carInfo);
+                            employeeData.totalSalesAmount += carmodel.price;
+                        }
+                    }
+                }
+            }
+
+            res.status(200).json(employeeData);
+        } else {
+            res.status(404).send('Employee not found.');
+        }
+    } catch (error) {
+        console.error('Error fetching employee information:', error);
+        res.status(500).send('Error fetching employee information.');
     }
 });
 
