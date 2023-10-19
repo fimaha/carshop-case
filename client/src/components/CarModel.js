@@ -29,6 +29,7 @@ export default function CarModel({ car, onRemove }) {
                 alt="Remove"
                 className="remove-button"
                 onClick={() => onRemove(car.id)}
+                style={{ width: '15px', height: '15px' }}
             />
         </div>
     );

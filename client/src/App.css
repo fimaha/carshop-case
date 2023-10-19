@@ -58,7 +58,7 @@
 
 .nav-bar a {
     text-decoration: none;
-    color: #afa4a4;
+    color: #ffffff;
     /* text color (log in etc) */
 }
 
@@ -67,10 +67,13 @@
 }
 
 .footer {
+    /* position: fixed;
+    bottom: 0;
+    left: 0; */
     display: flex;
-    padding: 40px;
-    font-size: 14px;
-    color: #000000;
+    padding: 100px;
+    font-size: calc(3px + 1vmin);
+    color: #ffffff;
     justify-content: center;
 }
 
@@ -207,10 +210,169 @@
 
 .home-center {
     text-align: center;
-    color: rgb(137, 54, 10);
+    color: rgb(68, 89, 134);
 }
 
 .home-padded-left {
     padding-left: 20px;
-    color: rgb(137, 54, 10);
+    color: rgb(68, 89, 134)
+}
+
+.menu-section {
+    background-color: #61dafb;
+    /* Change this to your desired background color */
+    /* padding: 20px; */
+    text-align: center;
+    margin-top: 20px;
+    /* Adjust the margin as needed */
+}
+
+.menu-button {
+    background-color: #212323;
+    border: none;
+    border-radius: 5px;
+    color: #ffffff;
+    padding: 10px 20px;
+    text-decoration: none;
+    /* Remove underline for the link */
+    display: inline-block;
+    margin-top: 10px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.menu-button:hover {
+    background-color: #343537;
+    color: #ffffff;
+    /* Change color on hover as needed */
+}
+
+.menu-icon {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 10px 20px;
+
+    /* display: block; */
+    /* margin: 40px auto; */
+    width: 15px;
+    /* padding: 10px; */
+    /* border-radius: 10px; */
+    /* border: rgb(86, 111, 187); */
+    color: rgb(14, 24, 52);
+    /* background-color: #ffffff; */
+    cursor: pointer;
+}
+
+
+.menu-bar {
+    width: 25px;
+    height: 3px;
+    background: #ffffffff;
+    /* Change the color to your preference */
+    position: relative;
+    margin: 3px 0;
+    transition: background-color 0.3s;
+}
+
+.menu-bar.open {
+    background: #fff;
+    /* Change the color when the menu is open */
+}
+
+.menu-dropdown {
+    position: absolute;
+    background-color: #282c34;
+    /* Background color for the dropdown */
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    top: 100%;
+    /* Position it below the menu icon */
+    right: 0;
+    /* Adjust the position as needed */
+    width: 200px;
+    /* Set the width of the dropdown */
+    z-index: 1;
+    /* Ensure it's displayed above other content */
+    display: flex;
+    flex-direction: column;
+    /* Display menu items vertically */
+}
+
+.menu-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-dropdown li {
+    padding: 10px;
+}
+
+.menu-dropdown a {
+    text-decoration: none;
+    color: white;
+    /* Text color for menu items */
+    display: block;
+    transition: background-color 0.3s;
+}
+
+.menu-dropdown a:hover {
+    background-color: #61dafb;
+    /* Background color on hover */
+    color: #000;
+    /* Text color on hover */
+}
+
+
+.dropdown {
+    position: relative;
+}
+
+.menu {
+    position: absolute;
+    list-style-type: none;
+    margin: 5px 0;
+    padding: 0;
+    border: 1px solid grey;
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu>li {
+    margin: 0;
+    background-color: white;
+}
+
+.menu>li:hover {
+    background-color: lightgray;
+}
+
+.menu>li>button {
+    width: 100%;
+    height: 100%;
+    text-align: left;
+
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 5px;
+    margin: 0;
+    font: inherit;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    padding: 12px 16px;
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
 }

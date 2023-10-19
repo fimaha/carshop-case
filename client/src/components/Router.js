@@ -2,8 +2,9 @@ import Header from './Header'
 import Footer from './Footer'
 import Home from '../pages/Home'
 import Profile from '../pages/Profile'
-import Contact from '../pages/Contact'
+import Cars from '../pages/Cars'
 import Login from '../pages/Login'
+import Company from '../pages/Company'
 import CreateAccount from '../pages/CreateAccount'
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
 
@@ -29,8 +30,12 @@ export default function Router() {
                     element: <Home />
                 },
                 {
-                    path: "/contact-us",
-                    element: <Contact />
+                    path: "/carmodels",
+                    element: <Cars />
+                },
+                {
+                    path: "/employees",
+                    element: <Company />
                 },
                 {
                     path: "/login",
@@ -43,6 +48,10 @@ export default function Router() {
                 {
                     path: "/profile",
                     element: <Profile />
+                },
+                {
+                    path: "/*",
+                    element: <Home />
                 },
             ]
         }

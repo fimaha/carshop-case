@@ -8,10 +8,10 @@ const router = express.Router()
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Carmodels
+// Get carmodels
 router.get('/carmodels', async (req, res) => {
     try {
-        const carmodelsCollection = collection(db, 'carmodels'); // Update the path according to how you've added car models
+        const carmodelsCollection = collection(db, 'carmodels');
         const carmodelsQuerySnapshot = await getDocs(carmodelsCollection);
 
         const carmodels = [];
@@ -30,7 +30,7 @@ router.get('/carmodels', async (req, res) => {
     }
 });
 
-// Route to add a new car to Firestore
+// Add a new car to Firestore
 router.post('/carmodels', async (req, res) => {
     const { brand, model, price, id } = req.body;
     const newCarData = {
@@ -43,16 +43,15 @@ router.post('/carmodels', async (req, res) => {
         const carmodelsCollection = collection(db, 'carmodels')
         const newCarModelRef = doc(carmodelsCollection);
         await setDoc(newCarModelRef, newCarData);
-        // await setDoc(doc(db, 'carmodels', email), data);
-        res.status(201).json(newCarData); // Return the added car with its unique ID
+        res.status(201).json(newCarData);
     } catch (error) {
         res.status(500).send('Error adding a car to Firestore');
     }
 });
 
-// Route to remove a car from Firestore
+// Remove a car
 router.delete('/carmodels/:carId', async (req, res) => {
-    const carId = req.params.carId; // Access the carId from the URL parameter
+    const carId = req.params.carId;
 
     try {
         const carmodelsCollection = collection(db, 'carmodels');
@@ -66,7 +65,6 @@ router.delete('/carmodels/:carId', async (req, res) => {
         });
 
         if (foundCarId) {
-            // Remove the car document from Firestore
             const carDocRef = doc(carmodelsCollection, foundCarId);
             await deleteDoc(carDocRef);
             res.status(204).send('Car deleted successfully');
@@ -79,7 +77,7 @@ router.delete('/carmodels/:carId', async (req, res) => {
     }
 });
 
-// Check if account exists when logging in
+// Read if account exists when logging in
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
@@ -109,7 +107,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// Add account info when creating an account
+// Create a new account
 router.post('/account', async (req, res) => {
     const { name, surname, email, password } = req.body;
     const data = {
@@ -122,7 +120,6 @@ router.post('/account', async (req, res) => {
     try {
         await setDoc(doc(db, 'accounts', email), data);
         res.status(200).json('Successfully created account.');
-        // res.send('Successfully created account.');
     } catch (error) {
         console.error('Error creating account:', error);
         res.status(500).send('Error creating account');
@@ -130,7 +127,7 @@ router.post('/account', async (req, res) => {
 
 });
 
-// Route to fetch user information based on email
+// Read user information based on email
 router.get('/user-info', async (req, res) => {
     const { email } = req.query;
 
@@ -179,7 +176,6 @@ router.get('/employee-info', async (req, res) => {
         });
 
         if (employeeData.id !== null) {
-            // If the employee exists, fetch related sales data
             const salesCollection = collection(db, 'sales');
             const salesQuerySnapshot = await getDocs(salesCollection);
             for (const doc of salesQuerySnapshot.docs) {
@@ -206,6 +202,95 @@ router.get('/employee-info', async (req, res) => {
     } catch (error) {
         console.error('Error fetching employee information:', error);
         res.status(500).send('Error fetching employee information.');
+    }
+});
+
+// Fetch employee data
+router.get('/employees', async (req, res) => {
+    try {
+        const employeesData = {};
+
+        const employeesCollection = collection(db, 'employees');
+        const employeesQuerySnapshot = await getDocs(employeesCollection);
+
+        for (const doc of employeesQuerySnapshot.docs) {
+            const employeeData = {
+                id: null,
+                name: "",
+                totalSalesAmount: 0,
+                carsSold: [],
+            };
+
+            const employee = doc.data();
+            const salesCollection = collection(db, 'sales');
+            const salesQuerySnapshot = await getDocs(salesCollection);
+
+            for (const doc of salesQuerySnapshot.docs) {
+                const sale = doc.data();
+                if (sale.employee_id === employee.id) {
+                    const carmodelId = sale.carmodel_id;
+                    const carmodelsCollection = collection(db, 'carmodels');
+                    const carmodelsQuerySnapshot = await getDocs(carmodelsCollection);
+
+                    for (const doc of carmodelsQuerySnapshot.docs) {
+                        const carmodel = doc.data();
+                        if (carmodel.id === carmodelId) {
+                            const carInfo = {
+                                brand: carmodel.brand,
+                                model: carmodel.model,
+                                price: carmodel.price,
+                            };
+                            employeeData.id = employee.id
+                            employeeData.name = employee.name
+                            employeeData.carsSold.push(carInfo);
+                            employeeData.totalSalesAmount += carmodel.price;
+                        }
+                    }
+                }
+            }
+
+            employeesData[employee.id] = employeeData;
+        }
+
+        res.status(200).json(employeesData);
+    } catch (error) {
+        console.error('Error fetching employees information:', error);
+        res.status(500).send('Error fetching employees information.');
+    }
+});
+
+
+// Update car model
+router.put('/carmodels/:carId', async (req, res) => {
+    const carId = req.params.carId;
+    const { brand, model, price } = req.body;
+
+    try {
+        const carmodelsCollection = collection(db, 'carmodels');
+        const carDocRef = doc(carmodelsCollection, carId);
+
+        const carDocSnapshot = await getDoc(carDocRef);
+        if (!carDocSnapshot.exists()) {
+            return res.status(404).send('Car not found');
+        }
+
+        await setDoc(carDocRef, {
+            brand: brand,
+            model: model,
+            price: price,
+        });
+
+        const updatedCarData = {
+            id: carId,
+            brand: brand,
+            model: model,
+            price: price,
+        };
+
+        res.status(200).json(updatedCarData);
+    } catch (error) {
+        console.error('Error updating a car in Firestore:', error);
+        res.status(500).send('Error updating a car in Firestore');
     }
 });
 

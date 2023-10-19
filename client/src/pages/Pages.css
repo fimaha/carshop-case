@@ -1,4 +1,4 @@
-/* CarModel.css */
+/* Pages.css */
 .car-model {
     display: flex;
     align-items: center;
@@ -6,7 +6,7 @@
     background-color: #454444ab;
     padding: 10px;
     margin: 10px;
-    border: 2px solid #ccc;
+    border: 1px solid #ccc;
     border-radius: 5px;
     transition: background-color 0.3s;
 }
@@ -21,7 +21,7 @@
 }
 
 .car-info.hovered {
-    color: rgb(137, 54, 10);
+    color: rgb(68, 89, 134);
 }
 
 .remove-button {
@@ -38,14 +38,15 @@
     background-color: #454444ab;
     padding: 10px;
     margin: 10px;
-    border: 2px solid #ccc;
+    border: 1px solid #ccc;
     border-radius: 5px;
     transition: background-color 0.3s;
 }
 
 .new-car-form .home-center {
     text-align: center;
-    color: rgb(137, 54, 10);
+    color: rgb(68, 89, 134);
+
 }
 
 .car-form-inputs {
@@ -73,5 +74,54 @@
 }
 
 .new-car-form .add-car-button:hover {
+    background-color: #343537;
+}
+
+.employee-list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #454444ab;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.employee-list-item.hovered {
+    background-color: #f0f0f09b;
+}
+
+.employee-info {
+    flex: 1;
+    color: #ffffff;
+}
+
+.employee-info.hovered {
+    color: rgb(68, 89, 134);
+}
+
+.explore-section {
+    background-color: rgb(68, 89, 134);
+    /* Change to your desired background color */
+    padding: 150px;
+    border-radius: 5px;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.explore-button {
+    display: inline-block;
+    background-color: #212323;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.explore-button:hover {
     background-color: #343537;
 }

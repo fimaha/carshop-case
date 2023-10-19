@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import uuid from 'react-uuid';
-import CarModel from "./CarModel";
-import { useUser } from './User';
-import BootstrapSpinner from '../components/BootstrapSpinner';
-import "./CarModel.css";
+import CarModel from "../components/CarModel";
+import { useUser } from '../components/User';
+import "./Pages.css";
 
 export default function CarModelList() {
     const [carmodels, setCarmodels] = useState([]);
