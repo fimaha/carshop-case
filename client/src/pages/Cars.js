@@ -35,16 +35,13 @@ export default function CarModelList() {
         // Send a DELETE request to remove a car
         axios
             .delete(`http://localhost:8080/carmodels/${carId}`)
-            // .then(() => {
-            //     // Remove the car from the local state
-            //     // const updatedCarmodels = carmodels.filter((car) => car.id !== carId);
-            //     // setCarmodels(updatedCarmodels);
-            // })
+            .then(() => {
+                const updatedCarmodels = carmodels.filter((car) => car.id !== carId);
+                setCarmodels(updatedCarmodels);
+            })
             .catch((error) => {
                 console.error(error);
             });
-        const updatedCarmodels = carmodels.filter((car) => car.id !== carId);
-        setCarmodels(updatedCarmodels);
     };
 
     return (

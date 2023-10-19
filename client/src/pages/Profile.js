@@ -10,10 +10,8 @@ export default function Profile() {
 
     useEffect(() => {
         if (userInfo.email) {
-            // Create the full name
             const fullName = userInfo.name + ' ' + userInfo.surname;
 
-            // Fetch employee data
             axios.get(`/employee-info?fullName=${fullName}`)
                 .then((response) => {
                     const employeeInfo = response.data;
@@ -56,7 +54,6 @@ export default function Profile() {
 
                 </div>
             </div>
-            {/* TODO if employee */}
 
         </>
     )

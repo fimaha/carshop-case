@@ -25,7 +25,7 @@ export default function CarModel({ car, onRemove }) {
                 {car.brand} {car.model} - {car.price} kr
             </div>
             <img
-                src={bin}  // Replace with the path to your wastebin image
+                src={bin}
                 alt="Remove"
                 className="remove-button"
                 onClick={() => onRemove(car.id)}

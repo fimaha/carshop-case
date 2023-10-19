@@ -21,13 +21,11 @@ export default function Login() {
                     // If the response contains user information, log in
                     if (response.status === 200) {
                         setLoggedIn(true)
-                        updateUserInfo(response.data) // Store user info for later use
+                        updateUserInfo(response.data)
                         navigate('/profile');
-                        // window.location.href = '/profile'
                     } else {
                         setError(response.data)
                     }
-                    // window.location.href = '/profile'
                 })
                 .catch((error) => {
                     setError(<p className="required">Incorrect email or password.</p>);
@@ -41,7 +39,6 @@ export default function Login() {
             <h1 className="home-center">Log in</h1>
             <form className="contactForm">
 
-                {/* <SelectDropDown/>  TODO this function is just for testing*/}
                 <label>Email</label>
                 <input type="text" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
 
