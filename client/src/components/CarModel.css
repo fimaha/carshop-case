@@ -1,0 +1,77 @@
+/* CarModel.css */
+.car-model {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #454444ab;
+    padding: 10px;
+    margin: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.car-model.hovered {
+    background-color: #f0f0f09b;
+}
+
+.car-info {
+    flex: 1;
+    color: #ffffff;
+}
+
+.car-info.hovered {
+    color: rgb(137, 54, 10);
+}
+
+.remove-button {
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+}
+
+.remove-button:hover {
+    filter: brightness(0.8);
+}
+
+.new-car-form {
+    background-color: #454444ab;
+    padding: 10px;
+    margin: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.new-car-form .home-center {
+    text-align: center;
+    color: rgb(137, 54, 10);
+}
+
+.car-form-inputs {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.new-car-form input {
+    flex: 0.3;
+    padding: 5px;
+    border: 0.1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.new-car-form .add-car-button {
+    cursor: pointer;
+    background-color: #212323;
+    border: none;
+    border-radius: 1px;
+    color: #ffffff;
+    padding: 10px;
+    margin-left: 10px;
+}
+
+.new-car-form .add-car-button:hover {
+    background-color: #343537;
+}

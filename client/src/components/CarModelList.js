@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import uuid from 'react-uuid';
+import CarModel from "./CarModel";
+import { useUser } from './User';
+import BootstrapSpinner from '../components/BootstrapSpinner';
+import "./CarModel.css";
 
 export default function CarModelList() {
     const [carmodels, setCarmodels] = useState([]);
-    const [newCar, setNewCar] = useState({ brand: "", model: "", price: 0, id: uuid() });
+    const [newCar, setNewCar] = useState({ brand: "", model: "", price: "", id: uuid() });
+    const { isLoggedIn } = useUser()
 
     useEffect(() => {
         // Fetch car models from the API when the component mounts
@@ -20,7 +25,7 @@ export default function CarModelList() {
             .then((response) => {
                 // Add the new car to the local state
                 setCarmodels([...carmodels, response.data]);
-                setNewCar({ brand: "", model: "", price: 0, id: uuid() });
+                setNewCar({ brand: "", model: "", price: "", id: uuid() });
             })
             .catch((error) => {
                 console.error(error);
@@ -44,36 +49,44 @@ export default function CarModelList() {
     };
 
     return (
-        <div>
-            <h2>Car Models</h2>
-            <ul>
-                {carmodels.map((car) => (
-                    <li key={car.id}>
-                        {car.brand} {car.model} - {car.price} kr
-                        <button onClick={() => removeCar(car.id)}>Remove</button>
-                    </li>
-                ))}
-            </ul>
-            <h3>Add a New Car</h3>
-            <input
-                type="text"
-                placeholder="Brand"
-                value={newCar.brand}
-                onChange={(e) => setNewCar({ ...newCar, brand: e.target.value })}
-            />
-            <input
-                type="text"
-                placeholder="Model"
-                value={newCar.model}
-                onChange={(e) => setNewCar({ ...newCar, model: e.target.value })}
-            />
-            <input
-                type="number"
-                placeholder="Price"
-                value={newCar.price}
-                onChange={(e) => setNewCar({ ...newCar, price: e.target.value })}
-            />
-            <button onClick={addCar}>Add Car</button>
+        <div className="content">
+            <h2 className="home-center">Cars for sale</h2>
+            {carmodels.map((car) => (
+                <CarModel key={car.id} car={car} onRemove={removeCar} />
+            ))}
+            {isLoggedIn ? (
+                <>
+                    <h2 className="home-center">Add a New Car</h2>
+                    <div className="new-car-form">
+
+                        <div className="car-form-inputs">
+                            <input
+                                type="text"
+                                placeholder="Brand"
+                                value={newCar.brand}
+                                onChange={(e) => setNewCar({ ...newCar, brand: e.target.value })}
+                            />
+                            <input
+                                type="text"
+                                placeholder="Model"
+                                value={newCar.model}
+                                onChange={(e) => setNewCar({ ...newCar, model: e.target.value })}
+                            />
+                            <input
+                                type="number"
+                                placeholder="Price"
+                                value={newCar.price}
+                                onChange={(e) => setNewCar({ ...newCar, price: e.target.value })}
+                            />
+                            <button className="add-car-button" onClick={addCar}>
+                                Add Car
+                            </button>
+                        </div>
+                    </div>
+                </>
+            ) : (
+                <></>
+            )}
         </div>
     );
 }

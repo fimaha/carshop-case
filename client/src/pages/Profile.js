@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useUser } from '../components/User';
+import BootstrapSpinner from '../components/BootstrapSpinner';
 
 import axios from "axios";
 
@@ -46,7 +47,7 @@ export default function Profile() {
                         <p>Cars Sold: {employeeData.carsSold.join(', ')}</p>
                     </>
                 ) : (
-                    <p>Loading employee information...</p>
+                    <BootstrapSpinner />
                 )}
                 <button type="button" onClick={() => {
                     window.location.href = '/'
