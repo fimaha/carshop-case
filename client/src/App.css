@@ -213,12 +213,6 @@
     color: rgb(68, 89, 134)
 }
 
-.menu-section {
-    background-color: #61dafb;
-    text-align: center;
-    margin-top: 20px;
-}
-
 .menu-button {
     background-color: #212323;
     border: none;
@@ -251,7 +245,7 @@
 .menu-bar {
     width: 25px;
     height: 3px;
-    background: #ffffffff;
+    background: rgb(0, 0, 0);
     position: relative;
     margin: 3px 0;
     transition: background-color 0.3s;

@@ -267,14 +267,23 @@ router.put('/carmodels/:carId', async (req, res) => {
 
     try {
         const carmodelsCollection = collection(db, 'carmodels');
-        const carDocRef = doc(carmodelsCollection, carId);
+        let carDocRef = null
 
+        const carmodelsQuerySnapshot = await getDocs(carmodelsCollection);
+
+        for (const doc of carmodelsQuerySnapshot.docs) {
+            const carmodel = doc.data();
+            if (carmodel.id === carId) {
+                carDocRef = doc(carmodelsCollection, doc.id);
+            }
+        }
         const carDocSnapshot = await getDoc(carDocRef);
         if (!carDocSnapshot.exists()) {
             return res.status(404).send('Car not found');
         }
 
         await setDoc(carDocRef, {
+            id: carId,
             brand: brand,
             model: model,
             price: price,
